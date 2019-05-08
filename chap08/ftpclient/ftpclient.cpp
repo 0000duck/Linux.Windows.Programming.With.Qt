@@ -1,4 +1,9 @@
 #include "ftpclient.h"
+#include <QMessageBox>
+#include <QGridLayout>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QInputDialog>
 
 FtpClient::FtpClient( QWidget *parent, Qt::WindowFlags  f )
     : QDialog( parent, f )

@@ -1,7 +1,12 @@
 #ifndef FTPCLIENT_H
 #define FTPCLIENT_H
 
-#include <QtGui>
+#include <QDialog>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QFile>
+#include <QtFtp/QFtp>
 #include <QtNetwork>
 
 class FtpClient : public QDialog

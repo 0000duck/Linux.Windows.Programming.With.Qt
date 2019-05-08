@@ -5,10 +5,11 @@
 TEMPLATE = app
 TARGET = ftpclient
 DEPENDPATH += .
-INCLUDEPATH += .
+INCLUDEPATH += . ./qtftp/include
+LIBS += -L./qtftp/lib -lQt5Ftp
 
 # Input
 HEADERS += ftpclient.h
 SOURCES += ftpclient.cpp main.cpp
 TRANSLATIONS += ftpclient_zh.ts
-QT += network
+QT += network widgets
