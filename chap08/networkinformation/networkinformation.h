@@ -1,7 +1,10 @@
 #ifndef NETWORKINFORMATION_H
 #define NETWORKINFORMATION_H
 
-#include <QtGui>
+#include <QLineEdit>
+#include <QLabel>
+#include <QPushButton>
+#include <QDialog>
 #include <QtNetwork>
 
 class NetworkInformation : public QDialog		// network information dialogs widget

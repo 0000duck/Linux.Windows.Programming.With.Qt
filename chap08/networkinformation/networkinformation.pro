@@ -11,4 +11,4 @@ INCLUDEPATH += .
 HEADERS += networkinformation.h
 SOURCES += main.cpp networkinformation.cpp
 TRANSLATIONS += networkinformation_zh.ts
-QT += network
+QT += network widgets

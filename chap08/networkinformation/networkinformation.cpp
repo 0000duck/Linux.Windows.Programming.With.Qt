@@ -1,4 +1,7 @@
 #include "networkinformation.h"
+#include <QMessageBox>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
 NetworkInformation::NetworkInformation( QWidget *parent, Qt::WindowFlags  f )
     : QDialog( parent, f )
