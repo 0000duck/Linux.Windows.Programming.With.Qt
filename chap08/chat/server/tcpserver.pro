@@ -12,4 +12,4 @@ SOURCES		= tcpserver.cpp \
 				server.cpp \
 		  main.cpp
 TRANSLATIONS  = tcpserver_zh.ts
-QT += network
+QT += network widgets

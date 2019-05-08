@@ -33,6 +33,8 @@ TcpServer::TcpServer( QWidget *parent, Qt::WindowFlags  f )
 	port = 8010; 
 	LineEditPort->setText(QString::number(port)); 
 
+    connect(LineEditPort,SIGNAL(textChanged(QString)),this,
+            SLOT(slotPortTextChanged(QString)));
 }
 
 TcpServer::~TcpServer()
@@ -51,3 +53,9 @@ void TcpServer::updateServer(QString msg,int length)
 {
 	ListWidgetContent->addItem (msg.left(length) );
 }
+
+void TcpServer::slotPortTextChanged(QString str)
+{
+    port = str.toInt();
+}
+

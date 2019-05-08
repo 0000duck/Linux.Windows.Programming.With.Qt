@@ -1,8 +1,14 @@
 #ifndef TCPCLIENT_H
 #define TCPCLIENT_H
 
-#include <QtGui>
-#include <QtNetwork>
+#include <QDialog>
+#include <QListWidget>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QLabel>
+#include <QGridLayout>
+#include <QHostAddress>
+#include <QTcpSocket>
 
 class TcpClient : public QDialog
 {
@@ -34,6 +40,7 @@ public slots:
     void slotDisconnected();
     void slotSend();
     void dataReceived();
+    void slotPortTextChanged(QString str);
 };
 
 

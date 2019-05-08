@@ -1,9 +1,12 @@
 #ifndef TCPSERVER_H
 #define TCPSERVER_H
 
-#include <QtGui>
-#include <QtNetwork>
-
+#include <QDialog>
+#include <QListWidget>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QGridLayout>
 #include "server.h"
 class TcpServer : public QDialog
 {
@@ -22,7 +25,7 @@ public:
 public slots:
     void slotCreateServer();
     void updateServer(QString,int); 
+    void slotPortTextChanged(QString str);
 };
 
-
-#endif 
+#endif // TCPSERVER_H

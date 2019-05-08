@@ -1,22 +1,28 @@
 #ifndef TCPCLIENTSOCKET_H
 #define TCPCLIENTSOCKET_H
 
-#include <QtGui>
-#include <QtNetwork>
+#include <QTcpSocket>
+#include <QObject>
 
-class TcpClientSocket : public QTcpSocket
+class TcpClientSocket: public QObject
 {
     Q_OBJECT
+
+private:
+    QTcpSocket *tcpSocket;
+
 public:
-    TcpClientSocket( QObject *parent=0);
+    TcpClientSocket(QTcpSocket *tcpSocket, QObject *parent=0);
     ~TcpClientSocket();
+    QTcpSocket *getTcpSocket();
+
 signals:
-	void updateClients(QString,int);
-	void disconnected(int);
-protected slots: 
-    void dataReceived();    
+    void updateClients(QString,int);
+    void disconnected(QTcpSocket *);
+
+protected slots:
+    void dataReceived();
     void slotDisconnected();
 };
 
-
-#endif 
+#endif // TCPCLIENTSOCKET_H

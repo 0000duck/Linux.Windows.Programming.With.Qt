@@ -1,4 +1,5 @@
 #include "tcpclient.h"
+#include <QMessageBox>
 
 TcpClient::TcpClient( QWidget *parent, Qt::WindowFlags  f )
     : QDialog( parent, f )
@@ -68,6 +69,8 @@ TcpClient::TcpClient( QWidget *parent, Qt::WindowFlags  f )
 	
 	status=false;
 	
+    connect(LineEditPort,SIGNAL(textChanged(QString)),this,
+            SLOT(slotPortTextChanged(QString)));
 	PushButtonSend->setEnabled( false ); 
 }
 
@@ -164,5 +167,9 @@ void TcpClient::dataReceived()
 	
 		ListWidgetContent->addItem (msg.left(datagram.size()));
     }
+}
 
+void TcpClient::slotPortTextChanged(QString str)
+{
+    port = str.toInt();
 }

@@ -14,10 +14,8 @@ signals:
     void updateServer(QString,int);
 public slots:
     void updateClients(QString,int);
-    void slotDisconnected(int); 
-protected:
-    void incomingConnection(int socketDescriptor);
- 
+    void slotDisconnected(QTcpSocket *);
+    void slotNewConnection();
 };
 
 
