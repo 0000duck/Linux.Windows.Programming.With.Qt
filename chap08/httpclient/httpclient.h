@@ -1,8 +1,13 @@
 #ifndef HTTPCLIENT_H
 #define HTTPCLIENT_H
 
-#include <QtGui>
+#include <QDialog>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QFile>
 #include <QtNetwork>
+#include <QProgressBar>
 
 class HttpClient : public QDialog
 {
@@ -19,18 +24,18 @@ public:
     QPushButton* cancelPushButton;
     QPushButton* exitPushButton;
 
-    QHttp* httpClient;
+    QNetworkAccessManager *manager;
+    QNetworkReply *reply;
     QFile* file;
     
-    int requestId;
 	bool httpRequestAborted;
 public slots:
     void slotDownload();
     void slotCancel();
     void slotExit();
-    void httpRequestFinished(int, bool);
-    void httpDataReadProgress(int, int);
-    void httpResponseHeaderReceived(const QHttpResponseHeader &);
+    void httpFinished();
+    void httpDataReadProgress(qint64, qint64);
+    void httpReadyRead();
 };
 
 

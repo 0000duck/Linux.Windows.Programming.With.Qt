@@ -11,4 +11,4 @@ INCLUDEPATH += .
 HEADERS += httpclient.h
 SOURCES += httpclient.cpp main.cpp
 TRANSLATIONS += httpclient_zh.ts
-QT += network
+QT += network widgets

@@ -1,4 +1,7 @@
 #include "httpclient.h"
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QMessageBox>
 
 HttpClient::HttpClient( QWidget *parent, Qt::WindowFlags  f )
     : QDialog( parent, f )
@@ -41,12 +44,7 @@ HttpClient::HttpClient( QWidget *parent, Qt::WindowFlags  f )
     vbLayout->addLayout( hbLayout2 );
     vbLayout->addLayout( hbLayout3 );
 
-    httpClient = new QHttp(this);
-
-    connect(httpClient, SIGNAL(requestFinished(int, bool)),this, SLOT(httpRequestFinished(int, bool)));
-    connect(httpClient, SIGNAL(dataReadProgress(int, int)),this, SLOT(httpDataReadProgress(int, int)));
-    connect(httpClient, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)),this, SLOT(httpResponseHeaderReceived(const QHttpResponseHeader &)));
-
+    manager = new QNetworkAccessManager(this);
 
 	connect(downloadPushButton,SIGNAL(clicked()),this,SLOT(slotDownload()));
     connect(cancelPushButton,SIGNAL(clicked()),this,SLOT(slotCancel()));
@@ -81,14 +79,11 @@ void HttpClient::slotDownload()
         return;
     }
     
-    httpClient->setHost(url.host(), url.port() != -1 ? url.port() : 80);
-    if (!url.userName().isEmpty())
-    {
-        httpClient->setUser(url.userName(), url.password());
-    }
-
     httpRequestAborted = false;
-    requestId = httpClient->get(url.path(), file);
+    reply = manager->get(QNetworkRequest(url));
+    connect(reply,SIGNAL(readyRead()),this,SLOT(httpReadyRead()));
+    connect(reply,SIGNAL(downloadProgress(qint64,qint64)),this,SLOT(httpDataReadProgress(qint64,qint64)));
+    connect(reply,SIGNAL(finished()),this,SLOT(httpFinished()));
 
     progressBar->reset();
 
@@ -99,7 +94,7 @@ void HttpClient::slotDownload()
 void HttpClient::slotCancel()
 {
     httpRequestAborted = true;
-    httpClient->abort();
+    reply->abort();
     downloadPushButton->setEnabled(true);
     cancelPushButton->setEnabled(false);	
 }
@@ -109,7 +104,7 @@ void HttpClient::slotExit()
 	accept();
 }
 
-void HttpClient::httpRequestFinished(int id, bool error)
+void HttpClient::httpFinished()
 {
     if (httpRequestAborted) 
     {
@@ -125,38 +120,33 @@ void HttpClient::httpRequestFinished(int id, bool error)
         return;
     }
 
-    if (id == requestId)
-    {
-		progressBar->reset();
-		file->close();
-		
-		if (error) 
-		{
-		    file->remove();
-		    QMessageBox::information(this, tr("Error"),tr("Download failed!"));
-		} 
+    progressBar->reset();
+    file->close();
 
-		downloadPushButton->setEnabled(true);
-		cancelPushButton->setEnabled(false);
-		delete file;
-		file = 0;
-	}
+    if (reply->error()) 
+    {
+        file->remove();
+        QMessageBox::information(this, tr("Error"),tr("Download failed!"));
+    } 
+
+    downloadPushButton->setEnabled(true);
+    cancelPushButton->setEnabled(false);
+    delete file;
+    file = 0;
+
+    reply->deleteLater();
+    reply = 0;
+
+    QMessageBox::information(this, tr("Success"),tr("Download success!"));
 }
 
-void HttpClient::httpDataReadProgress(int done, int total)
+void HttpClient::httpDataReadProgress(qint64 done, qint64 total)
 {
 	progressBar->setMaximum(total);
     progressBar->setValue(done);
 }
 
-void HttpClient::httpResponseHeaderReceived(const QHttpResponseHeader &responseHeader)
+void HttpClient::httpReadyRead()
 {
-	if (responseHeader.statusCode() != 200) 
-	{
-		QMessageBox::information(this, tr("Error"),	tr("Download error!"));
-		httpRequestAborted = true;
-		progressBar->reset();
-		httpClient->abort();
-		return;
-	}
+    if (file) file->write(reply->readAll());
 }
