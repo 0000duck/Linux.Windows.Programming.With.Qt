@@ -8,4 +8,4 @@ HEADERS		= udpserver.h
 SOURCES		= udpserver.cpp \
 		  main.cpp
 TRANSLATIONS  = udpserver_zh.ts
-QT += network
+QT += network widgets

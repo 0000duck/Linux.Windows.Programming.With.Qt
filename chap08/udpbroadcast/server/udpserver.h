@@ -1,7 +1,12 @@
 #ifndef UDPSERVER_H
 #define UDPSERVER_H
 
-#include <QtGui>
+#include <QDialog>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QTimer>
 #include <QtNetwork>
 #include <QtDebug>
 

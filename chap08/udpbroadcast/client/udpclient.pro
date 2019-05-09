@@ -8,4 +8,4 @@ HEADERS		= udpclient.h
 SOURCES		= udpclient.cpp \
 		  main.cpp
 TRANSLATIONS  = udpclient_zh.ts
-QT += network
+QT += network widgets

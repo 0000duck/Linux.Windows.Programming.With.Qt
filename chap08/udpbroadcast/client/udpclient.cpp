@@ -1,4 +1,6 @@
 #include "udpclient.h"
+#include <QMessageBox>
+
 
 UdpClient::UdpClient( QWidget *parent, Qt::WindowFlags  f )
     : QDialog( parent, f )

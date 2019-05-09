@@ -1,7 +1,10 @@
 #ifndef UDPCLIENT_H
 #define UDPCLIENT_H
 
-#include <QtGui>
+#include <QDialog>
+#include <QVBoxLayout>
+#include <QTextEdit>
+#include <QPushButton>
 #include <QtNetwork>
 
 class UdpClient : public QDialog
